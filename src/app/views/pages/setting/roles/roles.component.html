@@ -1,0 +1,203 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <!-- <h6 _ngcontent-qyb-c125="" class="card-title">إدارة مستخديم النظام</h6> -->
+      
+        
+    </div>
+    <div class="d-flex align-items-center flex-wrap text-nowrap">
+     
+      <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0 sett" (click)="openLgModal(lgModal)">
+        <i class="btn-icon-prepend" data-feather="plus" appFeatherIcon></i>
+     
+        <h6 _ngcontent-qyb-c125="" class="card-title">   إضافة مهمة</h6>
+      </button>
+    </div>
+  </div>
+  <div class="table-responsive pt-3">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th> المهمة</th>
+          <th> الوصف</th>
+          <th> الصلاحيات</th>
+          <th>الإجراء</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td> مستخدم</td>
+          <td>
+          هنا يكتب وصف المستخدم
+          </td>
+          <td>
+       إضافة 
+       ، 
+       حذف
+            </td>
+          <td> 
+            <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
+            <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger "></i> 
+            
+
+          </td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td> إداري</td>
+            <td>
+                هنا يكتب وصف الإداري
+            </td>
+        
+            <td>
+                إضافة 
+                ، 
+                حذف
+                     </td>
+            <td>
+                <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
+                <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger "></i> 
+            </td>
+          </tr>
+       
+      </tbody>
+    </table>
+  </div>
+
+
+  <ng-template #lgModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">إضافة مهمة جديدة</h5>
+      <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+       
+        <div class="mb-3">
+            <label for="exampleInputUsername1" class="form-label">المهمة</label>
+            <input class="form-control" type="text" placeholder="الحد الأعلى ثلاثة أحرف" ngModel name="minlength" #minlength="ngModel" minlength="3"/>
+            <p class="text-danger mt-1" *ngIf="minlength?.errors?.minlength">minlength error</p>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">الوصف</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+
+          <div class="mb-1">
+            <label for="exampleInputUsername1" class="form-label">الصلاحيات</label>
+            <div class="mb-3">
+                <div class="form-check form-check-inline">
+                  
+                    <label class="form-check-label" for="checkInline">
+                     صفحة الطلبات :
+                    </label>
+  
+  
+                  </div>
+
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" class="form-check-input" id="checkInline">
+                  <label class="form-check-label" for="checkInline">
+                   إضافة
+                  </label>
+
+
+                </div>
+           
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="checkInline">
+                    <label class="form-check-label" for="checkInline">
+                    حذف
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="checkInline">
+                    <label class="form-check-label" for="checkInline">
+                  تعديل
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="checkInline">
+                    <label class="form-check-label" for="checkInline">
+                  عرض
+                    </label>
+                  </div>
+              </div>
+              <div class="mb-3">
+                <div class="form-check form-check-inline">
+                  
+                    <label class="form-check-label" for="checkInline">
+                     صفحة المهام :
+                    </label>
+  
+  
+                  </div>
+
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" class="form-check-input" id="checkInline">
+                  <label class="form-check-label" for="checkInline">
+                   إضافة
+                  </label>
+
+
+                </div>
+           
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="checkInline">
+                    <label class="form-check-label" for="checkInline">
+                    حذف
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="checkInline">
+                    <label class="form-check-label" for="checkInline">
+                  تعديل
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="checkInline">
+                    <label class="form-check-label" for="checkInline">
+                  عرض
+                    </label>
+                  </div>
+              </div>
+              <div class="mb-3">
+                <div class="form-check form-check-inline">
+                  
+                    <label class="form-check-label" for="checkInline">
+                     صفحة التقارير :
+                    </label>
+  
+  
+                  </div>
+
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" class="form-check-input" id="checkInline">
+                  <label class="form-check-label" for="checkInline">
+                   تحميل
+                  </label>
+
+
+                </div>
+           
+                
+             
+                  <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="checkInline">
+                    <label class="form-check-label" for="checkInline">
+                  عرض
+                    </label>
+                  </div>
+              </div>
+          </div>
+
+      
+
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('by: close button')">إغلاق</button>
+      <button type="button" class="btn btn-primary" (click)="modal.close('by: save button')">إضافة</button>
+    </div>
+  </ng-template>
