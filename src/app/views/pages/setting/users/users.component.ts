@@ -3,6 +3,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 
 
+import { Router, ActivatedRoute } from '@angular/router';
+import { SettingService } from 'src/app/services/setting.service';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
+
+
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -12,12 +23,59 @@ export class UsersComponent implements OnInit {
   fillJustifyNavCode: any;
   simpleItems: any = [];
   selectedSimpleItem: any = null;
- 
+  isLoading = false;
+usersData:any = [];
+currentPage: any = 1;
+pageSize: any = 10;
+tableColumns = [
+  {
+    header: "اسم الموظف",
+    field: "userName",
+    type: "text",
+    functionObject: null,
+  },
+  {
+    header: "البريد الإلكتروني",
+    field: "email",
+    type: "text",
+    functionObject: null,
+  },
+  {
+    header: "المهام",
+    field: "role",
+    type: "text",
+    functionObject: null,
+  },
+
+  {
+    header: "الإجراء",
+    field: "actions",
+    type: "function",
+    functionObject: [
+      {
+        label: "edit",
+        action: (invoice:any, type:any) =>
+          this.editUser(invoice, type),
+      },
+      {
+        label: "delete",
+        action: (invoice:any, type:any) =>
+          this.deleteUser(invoice, type),
+      },
+    ],
+  },
+];
 
   ngOnInit(): void {
-    this.simpleItems = [true, 'Two', 3];
+    this.getUsers();
   }
-  constructor(private modalService: NgbModal) { }
+  constructor(
+    private modalService: NgbModal,     
+    private router: Router,
+    private route: ActivatedRoute,
+    private settingService: SettingService,
+    private fb: FormBuilder
+    ) { }
 
 
   openLgModal(content: TemplateRef<any>) {
@@ -27,7 +85,31 @@ export class UsersComponent implements OnInit {
   }
 
 
-  deleteUser(){
+  
+
+
+  getUsers(){
+    let params ={
+      currentPage:1,
+      pageSize:10
+    }
+    this.isLoading = true;
+    this.settingService.getUsers(params).subscribe(
+      async  (res: any) => {
+        this.isLoading = false;
+        this.usersData = res;
+      },
+      (err: { error: { code: number; }; }) => {
+        this.isLoading = false;
+
+      }
+    );
+  }
+
+  editUser(invoice: any, type: any){
+
+  }
+  deleteUser(invoice: any, type: any){
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -47,3 +129,4 @@ export class UsersComponent implements OnInit {
     });
   }
 }
+

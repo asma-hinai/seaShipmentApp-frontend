@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       password: [null, [Validators.required]],
     });
   }
+  
   onLogin(): void {
     for (const i in this.LgginForm.controls) {
       if (this.LgginForm.controls.hasOwnProperty(i)) {
@@ -46,8 +47,10 @@ export class LoginComponent implements OnInit {
         this.LgginForm.controls[i].updateValueAndValidity();
       }
     }
+
+ 
     let params = {
-      email: this.LgginForm.value.email,
+      userName: this.LgginForm.value.email,
       password: this.LgginForm.value.password,
     };
 

@@ -1,0 +1,51 @@
+
+
+<table class="min-w-full divide-y divide-gray-300">
+    <thead class="bg-gray-50 ">
+      <tr>
+        <th scope="col" class="px-3 py-2 text-base font-semibold text-gray-900 text-right" *ngFor="let column of columns">
+            {{column.header}}</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 bg-white">
+        <ng-container *ngFor="let data of data ; let i = index">
+      <tr >
+        <td class="whitespace-nowrap py-2.5 pl-2 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+        *ngFor="let column of columns">
+        <ng-container *ngIf="column.type == 'text'">
+            {{ data[column.field] }}
+
+        </ng-container>
+        <ng-container *ngIf="column.type == 'date'">
+            {{ setLocalDateTime(data[column.field]) | date : 'dd/MM/yyyy hh:mm a '
+            }}
+        </ng-container>
+
+        <ng-container *ngIf="isColumnObject(column.functionObject)" class="flex">
+            <span  class="flex gap-1">
+            <ng-container *ngFor="let action of column.functionObject" >
+          
+            <a (click)="executeAction(action, data)"
+            *ngIf="action.label == 'edit'">
+            <i data-feather="edit-2" appFeatherIcon
+                class="icon-sm me-2 text-primary "></i>
+        </a>
+
+        <a (click)="executeAction(action, data)"
+            *ngIf="action.label == 'delete'">
+            <i data-feather="trash" appFeatherIcon
+                class="icon-sm me-2 text-danger "></i>
+        </a>
+      
+         
+            </ng-container>
+        </span>
+        </ng-container>
+        </td>
+      
+      
+      </tr>
+    </ng-container>
+   
+    </tbody>
+  </table>

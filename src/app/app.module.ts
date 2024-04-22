@@ -14,9 +14,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
+   
   ],
   imports: [
     BrowserModule,

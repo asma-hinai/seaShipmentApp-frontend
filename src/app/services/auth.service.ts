@@ -27,6 +27,22 @@ export class AuthService {
     return this.httpClient.post('/api/login', credentials);
   }
 
+
+
+
+  loginTest() {
+    let params =  {"Email":"merchant@thawani.om","Password":"Th@w@ni:2021"}
+    return this.http
+      .post(`https://uatmerchant.thawani.om/api/auth/login`, params)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+
+
   login(params:any) {
     return this.http
       .post(`${environment.baseURL}AccessManagement/login`, params)
@@ -53,5 +69,26 @@ export class AuthService {
     return localStorage.getItem(this.jwtTokenName);
   }
 
+  forgetPassword(params:any) {
+    return this.http
+      .post(`${environment.baseURL}AccessManagement/forget-password`, params)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+  
+  setPassword(params:any) {
+    return this.http
+      .post(`${environment.baseURL}AccessManagement/set-password`, params)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
 
 }

@@ -13,57 +13,58 @@
       </button>
     </div>
   </div>
-  <div class="table-responsive pt-3">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th> المهمة</th>
-          <th> الوصف</th>
-          <th> الصلاحيات</th>
-          <th>الإجراء</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td> مستخدم</td>
-          <td>
-          هنا يكتب وصف المستخدم
-          </td>
-          <td>
-       إضافة 
-       ، 
-       حذف
-            </td>
-          <td> 
-            <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
-            <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger "></i> 
-            
 
-          </td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td> إداري</td>
-            <td>
-                هنا يكتب وصف الإداري
-            </td>
-        
-            <td>
-                إضافة 
-                ، 
-                حذف
-                     </td>
-            <td>
-                <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
-                <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger "></i> 
-            </td>
-          </tr>
-       
-      </tbody>
-    </table>
+  <div class="mt-8 flow-root">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div class="overflow-hidden sm:rounded-lg border">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50 ">
+              <tr>
+                <th scope="col" class="py-2.2 pl-2 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 text-right"> المهمة</th>
+                <th scope="col" class="px-3 py-2 text-left text-sm font-semibold text-gray-900  text-right"> الوصف</th>
+                <th scope="col" class="px-3 py-2 text-left text-sm font-semibold text-gray-900  text-right">الصلاحيات</th>
+                <th scope="col" class="px-3 py-2 text-left text-sm font-semibold text-gray-900  text-right">الإجراء</th>
+             
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              <tr>
+                <td class="whitespace-nowrap py-2.5 pl-2 pr-3 text-sm font-medium text-gray-900 sm:pl-6"> مستخدم</td>
+                <td class="whitespace-nowrap px-3  text-sm text-gray-500">   هنا يكتب وصف المستخدم</td>
+                <td class="whitespace-nowrap px-3 text-sm text-gray-500">  إضافة 
+                  ، 
+                  حذف</td>
+                <td class="whitespace-nowrap px-3 text-sm text-gray-500">
+                  <div class="flex gap-1">
+                    <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
+                    <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger " ></i> 
+                  </div>
+                </td>
+              
+              </tr>
+              <tr>
+                <td class="whitespace-nowrap py-2.5 pl-2 pr-3 text-sm font-medium text-gray-900 sm:pl-6"> مدير عام</td>
+                <td class="whitespace-nowrap px-3  text-sm text-gray-500">   هنا يكتب وصف مدير</td>
+                <td class="whitespace-nowrap px-3 text-sm text-gray-500">  إضافة 
+                  ، 
+                  حذف</td>
+                <td class="whitespace-nowrap px-3 text-sm text-gray-500">
+                  <div class="flex gap-1">
+                    <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
+                    <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger " ></i> 
+                  </div>
+                </td>
+              
+              </tr>
+           
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
+
 
 
   <ng-template #lgModal let-modal>
@@ -72,11 +73,12 @@
       <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-       
+      <form class="forms-sample" [formGroup]="roleForm">
         <div class="mb-3">
+          <!-- <nz-form-control nzErrorTip="هذا الحقل إجباري"> -->
             <label for="exampleInputUsername1" class="form-label">المهمة</label>
-            <input class="form-control" type="text" placeholder="الحد الأعلى ثلاثة أحرف" ngModel name="minlength" #minlength="ngModel" minlength="3"/>
-            <p class="text-danger mt-1" *ngIf="minlength?.errors?.minlength">minlength error</p>
+            <input class="form-control" type="text" placeholder="الحد الأعلى ثلاثة أحرف"  name="minlength" minlength="3"  formControlName="CashiersName" />
+          <!-- </nz-form-control> -->
           </div>
 
           <div class="mb-3">
@@ -194,7 +196,7 @@
 
       
 
-
+        </form>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="modal.close('by: close button')">إغلاق</button>

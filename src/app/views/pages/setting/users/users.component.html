@@ -13,49 +13,18 @@
       </button>
     </div>
   </div>
-  <div class="table-responsive pt-3">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th >#</th>
-          <th>اسم الموظف</th>
-          <th>البريد الإلكتروني</th>
-          <th>المهام</th>
-          <th>الإجراء</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>أسماء الهنائي</td>
-          <td>
-            asma@test.com
-          </td>
-          
-          <td><span class="badge bg-secondary">إداري</span></td>
-          <td> 
-            <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
-            <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger " (click)="deleteUser()"></i> 
-            
 
-          </td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>أسماء الهنائي</td>
-            <td>
-              asma@test.com
-            </td>
-        
-            <td><span class="badge bg-danger">مستخدم</span></td>
-            <td>
-                <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
-                <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger "></i> 
-            </td>
-          </tr>
-       
-      </tbody>
-    </table>
+  <div class="mt-8 flow-root">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div class="overflow-hidden sm:rounded-lg border">
+
+          <app-table [columns]="tableColumns" [data]="usersData" [pageSize]="pageSize" [currentPage]="currentPage"></app-table>
+
+
+        </div>
+      </div>
+    </div>
   </div>
 
   <ng-template #lgModal let-modal>

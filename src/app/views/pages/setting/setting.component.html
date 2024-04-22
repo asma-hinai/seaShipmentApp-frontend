@@ -6,8 +6,9 @@
     </ol>
 </nav>
 
+
 <div class="row">
-    <div class="col-5 col-md-3 pe-0">
+    <div class="col-5 col-md-3  col-sm-12  md:pe-0 p-0">
         <ul ngbNav #verticalNav="ngbNav" class="nav-tabs nav-tabs-vertical" orientation="vertical">
             <li [ngbNavItem]="1">
                 <a ngbNavLink>إدارة المستخدمين</a>
@@ -58,7 +59,7 @@
 
         </ul>
     </div>
-    <div class="col-7 col-md-9 ps-0">
+    <div class="col-7 col-md-9 col-sm-12   md:ps-0 p-0">
         <div [ngbNavOutlet]="verticalNav" class="tab-content-vertical border p-3"></div>
     </div>
 </div>

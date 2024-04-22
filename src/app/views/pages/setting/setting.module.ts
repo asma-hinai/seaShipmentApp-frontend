@@ -14,7 +14,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { TagInputModule } from 'ngx-chips';
 import { UsersComponent } from './users/users.component';
 import { RolesComponent } from './roles/roles.component';
-
+import { TableComponent } from 'src/app/shared/templates/table/table.component';
 
 
 
@@ -30,6 +30,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     SettingComponent,
+    TableComponent,
     UsersComponent,
     RolesComponent
   ],

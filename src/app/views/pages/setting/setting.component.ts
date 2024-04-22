@@ -13,7 +13,7 @@ export class SettingComponent implements OnInit {
  
 
   ngOnInit(): void {
-    this.simpleItems = [true, 'Two', 3];
+   
   }
   constructor(private modalService: NgbModal) { }
 
