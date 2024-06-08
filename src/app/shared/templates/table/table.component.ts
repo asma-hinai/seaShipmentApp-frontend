@@ -1,5 +1,9 @@
 import { HttpClient } from "@angular/common/http";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import Swal from "sweetalert2";
+
 import {
+
   Component,
   OnInit,
   Input,
@@ -8,8 +12,11 @@ import {
   ViewChild,
   TemplateRef,
 } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
-
+import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import {PermissionsListBackendCode} from "src/app/shared/interfaces/permission.config";
+import { SettingService } from "src/app/services/setting.service";
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -22,16 +29,21 @@ export class TableComponent implements OnInit {
   @Input() currentPage: number;
   @Input() actions: any;
 
+
+
   constructor(
     private http: HttpClient,
-    public router: Router
+    public router: Router,
+    private settingService: SettingService,
+    private modalService: NgbModal,
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
   }
 
   executeAction(action: any, item: any) {
-    action.action(item, item.type);
+    action.action(action, item);
   }
 
   isColumnObject(column: any): boolean {
@@ -62,6 +74,15 @@ export class TableComponent implements OnInit {
         return "";
     }
   }
+
   
+ 
+
+
+  getPermission(code: number): string {
+    return PermissionsListBackendCode[code] || "Permission not found";
+  }
+  
+
 
 }

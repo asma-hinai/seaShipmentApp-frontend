@@ -30,22 +30,10 @@ export class AuthService {
 
 
 
-  loginTest() {
-    let params =  {"Email":"merchant@thawani.om","Password":"Th@w@ni:2021"}
-    return this.http
-      .post(`https://uatmerchant.thawani.om/api/auth/login`, params)
-      .pipe(
-        map((data) => data),
-        catchError((error) => {
-          throw error;
-        })
-      );
-  }
-
 
   login(params:any) {
     return this.http
-      .post(`${environment.baseURL}AccessManagement/login`, params)
+      .post(`${environment.baseURL}auth/login`, params)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -56,7 +44,7 @@ export class AuthService {
 
   register(params:any) {
     return this.http
-      .post(`${environment.baseURL}AccessManagement/register`, params)
+      .post(`${environment.baseURL}auth/register`, params)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -71,7 +59,7 @@ export class AuthService {
 
   forgetPassword(params:any) {
     return this.http
-      .post(`${environment.baseURL}AccessManagement/forget-password`, params)
+      .post(`${environment.baseURL}Auth/password/forget`, params)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -82,7 +70,18 @@ export class AuthService {
   
   setPassword(params:any) {
     return this.http
-      .post(`${environment.baseURL}AccessManagement/set-password`, params)
+      .post(`${environment.baseURL}Auth/password/reset`, params)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+
+  logout() {
+    return this.http
+      .post(`${environment.baseURL}Auth/logout`, null)
       .pipe(
         map((data) => data),
         catchError((error) => {

@@ -14,11 +14,11 @@ export const MENU: MenuItem[] = [
   {
     label: 'المهام',
     icon: 'truck',
-    link: '/tasks'
+    link: '/shipments'
   },
   {
     label: 'التقارير',
     icon: 'bar-chart-2',
-    link: '/report'
+    link: '/reports'
   },
 ];

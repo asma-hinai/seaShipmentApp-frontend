@@ -3,6 +3,7 @@ export interface MenuItem {
   id?: number;
   label?: string;
   icon?: string;
+  view?: boolean;
   link?: string;
   subMenus?: SubMenus[];
   isMegaMenu?: boolean;

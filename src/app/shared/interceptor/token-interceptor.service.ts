@@ -1,52 +1,91 @@
-import { Injectable } from '@angular/core';
-import { 
-  HttpRequest, 
-  HttpHandler, 
-  HttpEvent, 
-  HttpInterceptor, 
-  HttpErrorResponse 
-} from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject} from 'rxjs';
-import { switchMap ,filter, take, catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpResponse,
+  HttpErrorResponse,
+  HttpClientXsrfModule,
+  HttpXsrfTokenExtractor
+} from "@angular/common/http";
+import { Observable, throwError } from "rxjs";
+import { map, catchError } from "rxjs/operators";
+import { Router, RouterEvent, NavigationEnd } from '@angular/router';
+import { Injectable } from "@angular/core";
+import { AuthService } from "src/app/services/auth.service";
+import { filter, pairwise } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  private tokenAttached: boolean = false;
+  previousUrl: string;
+
+  
+  constructor(private router: Router, 
+    private authService: AuthService , 
+    private msg: NzMessageService,
+    private tokenExtractor: HttpXsrfTokenExtractor
+    ) {
+      router.events.pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+      ).subscribe((event: NavigationEnd) => {
+        this.previousUrl = event.url;
+      });
+
+   }
 
 
-  constructor(public authService: AuthService ,  private router: Router) {}
+   
+   
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const jwtToken = this.authService.getToken();
-    
-
-    if (jwtToken) {
+    if (!request.headers.has("Content-Type")) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${jwtToken}`
-        }
+          "content-type": "application/json",
+        },
       });
     }
 
-    return next.handle(request).pipe(catchError((error: any): Observable<never> => {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
-        this.router.navigate(['/']);
-        return throwError(() => new Error('An error occurred'));
-      } else {
-        return throwError(() => error);
-      }
-    }))
+    request = request.clone({
+      headers: request.headers.set("Accept", "application/json"),
+    });
+
+    request = request.clone({
+      withCredentials: true,
+    });
+
+
+
+    const headerName = "X-XSRF-TOKEN";
+    const CookieName = "XSRF-TOKEN";
+    let token = this.tokenExtractor.getToken() as string;
+    if (token !== null && !request.headers.has(headerName)) {
+      request = request.clone({ headers: request.headers.set(headerName, token) });
+    }
+    if (token !== null && !request.headers.has(CookieName)) {
+      request = request.clone({ headers: request.headers.set(CookieName, token) });
+    }
+
+
   
-    
-    
-    ;
 
+    return next.handle(request).pipe(
 
-    
+      map((event: HttpEvent<any>) => {
+        if (event instanceof HttpResponse) {
+        }
+        return event;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 404) {
+          localStorage.clear();
+          this.router.navigate(["auth/login"]);
+        }
+        return throwError(error);
+      })
+    );
   }
-
-
-
 }

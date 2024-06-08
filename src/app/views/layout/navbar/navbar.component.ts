@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject, Renderer2, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
-
+import { AuthService } from 'src/app/services/auth.service';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
-
+import { PermissionService } from "src/app/services/app/permission.service";
+import { PermissionsList } from "src/app/shared/interfaces/permission.config";
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -31,11 +32,14 @@ export class NavbarComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document, 
     private renderer: Renderer2,
+    private authService: AuthService,
+    public permissionService: PermissionService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.menuItems = MENU;
+ 
+    this.setMenu();
 
     /**
     * closing the header menu after route change in tablet/mobile devices
@@ -47,6 +51,39 @@ export class NavbarComponent implements OnInit {
         }
       });
     }
+  }
+
+  async setMenu(){
+    this.menuItems  = [
+      {
+        label: 'الرئيسية',
+        icon: 'home',
+        link: '/dashboard',
+       view:true
+      },
+      {
+        label: 'الطلبات',
+        icon: 'archive',
+        link: '/orders',
+        view: await this.permissionService.checkPermission(
+          PermissionsList.order_view
+        ),
+      },
+      {
+        label: 'المهام',
+        icon: 'truck',
+        link: '/shipments',
+        view: await this.permissionService.checkPermission(
+          PermissionsList.Shipments_view
+        ),
+      },
+      {
+        label: 'التقارير',
+        icon: 'bar-chart-2',
+        link: '/reports',
+        view:true
+      },
+    ];
   }
 
   /**
@@ -62,12 +99,29 @@ export class NavbarComponent implements OnInit {
    */
   onLogout(e: Event) {
     e.preventDefault();
-    localStorage.removeItem('isLoggedin');
-
-    if (!localStorage.getItem('isLoggedin')) {
-      this.router.navigate(['/auth/login']);
-    }
+    const deleteAllCookies = () => {
+      const cookies = document.cookie.split(";");
+  
+      for (let cookie of cookies) {
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      }
+  };
+  deleteAllCookies();
+  localStorage.clear();
+  this.router.navigateByUrl("auth/login");
+  
+    this.authService.logout().subscribe(
+      (res: any) => {
+        this.router.navigateByUrl("auth/login");
+      },
+      (err) => {
+      }
+    );
+  
   }
+  
 
   /**
    * Toggle header menu in tablet/mobile devices

@@ -1,0 +1,111 @@
+<table class="min-w-full divide-y divide-gray-300">
+    <thead class="bg-gray-50 ">
+      <tr>
+        <th scope="col" class="px-3 py-2 text-base font-semibold text-gray-900 text-right" *ngFor="let column of columns">
+          {{column.header}}</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 bg-white">
+      <ng-container *ngFor="let data of data ; let i = index">
+        <tr>
+          <td class="whitespace-nowrap px-3 py-2 text-sm font-medium text-gray-900 sm:pl-6"
+            *ngFor="let column of columns" >
+            <ng-container *ngIf="column.type == 'text'">
+              {{ data[column.field] }}
+  
+            </ng-container>
+            <ng-container *ngIf="column.type == 'date'">
+              {{ setLocalDateTime(data[column.field]) | date : 'dd/MM/yyyy hh:mm a '
+              }}
+            </ng-container>
+            <ng-container *ngIf="column.type == 'permissions'" >
+          
+  
+              <ng-container *ngFor="let permissions of data['permissions']"   >
+               <span class="badge bg-light text-dark m-1">{{ getPermission(permissions) }} </span> 
+              </ng-container>
+             
+            </ng-container>
+            
+            <ng-container *ngIf="column.type == 'type'" >
+          
+  
+              <ng-container *ngFor="let type of data['type']"   >
+               <span class="badge bg-light text-dark m-1">{{ type }} </span> 
+              </ng-container>
+             
+            </ng-container>
+            
+  
+                
+            <ng-container *ngIf="column.type == 'identifierValues'"  class="flex">
+            
+          
+  
+  
+  
+              <ng-container *ngFor="let v of data['identifierValues'] "  class="flex gap-2" >
+                <ng-container *ngFor="let action of column.functionObject" >
+                <span (click)="executeAction(action, v)" class="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 flex gap-2 place-items-center mx-2 bo" style="font-size: 16px;font-weight: 600;">
+                <span>   {{ v['value'] }} </span>
+              
+         
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0,0,256,256" class="group relative -mr-1 -mt-1 h-3.5 w-3.5 stroke-pink-700/50 group-hover:stroke-pink-700/75 text-red cursor-pointer" 
+                style="fill:#000000;">
+                <g fill="#d77083" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(5.12,5.12)"><path d="M9.15625,6.3125l-2.84375,2.84375l15.84375,15.84375l-15.9375,15.96875l2.8125,2.8125l15.96875,-15.9375l15.9375,15.9375l2.84375,-2.84375l-15.9375,-15.9375l15.84375,-15.84375l-2.84375,-2.84375l-15.84375,15.84375z"></path></g></g>
+                </svg>      
+  
+                </span>
+  
+  
+              </ng-container>
+              </ng-container>
+           
+            </ng-container>
+            
+  
+  
+            <ng-container *ngIf="isColumnObject(column.functionObject)" class="flex">
+              <span class="flex gap-1">
+                <ng-container *ngFor="let action of column.functionObject">
+                  <a (click)="executeAction(action, data)" *ngIf="action.label == 'add'">
+                    <svg   xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0,0,256,256"
+                    style="fill: #000000;display: inline-block;">
+                    <g fill="#000865" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(5.12,5.12)"><path d="M25,2c-12.6907,0 -23,10.3093 -23,23c0,12.69071 10.3093,23 23,23c12.69071,0 23,-10.30929 23,-23c0,-12.6907 -10.30929,-23 -23,-23zM25,4c11.60982,0 21,9.39018 21,21c0,11.60982 -9.39018,21 -21,21c-11.60982,0 -21,-9.39018 -21,-21c0,-11.60982 9.39018,-21 21,-21zM24,13v11h-11v2h11v11h2v-11h11v-2h-11v-11z"></path></g></g>
+                    </svg>
+                  </a>
+
+                  <a (click)="executeAction(action, data)" *ngIf="action.label == 'edit'">
+                
+                    <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
+                  </a>
+
+                  <a (click)="executeAction(action, data)" *ngIf="action.label == 'accept'">
+                    <i data-feather="check" appFeatherIcon  class="icon-sm me-2 text-secondary "></i>
+                
+                  </a>
+                
+
+                  <a (click)="executeAction(action, data)" *ngIf="action.label == 'reject'">
+                    <i data-feather="x" appFeatherIcon  class="icon-sm me-2 text-danger "></i> 
+                
+                  </a>
+                  <a (click)="executeAction(action, data)" *ngIf="action.label == 'delete'">
+      
+                    <i data-feather="trash-2" class="icon-sm me-2 text-danger " appFeatherIcon></i>
+                  </a>
+  
+                
+                </ng-container>
+              </span>
+            </ng-container>
+          </td>
+  
+        </tr>
+      </ng-container>
+  
+    </tbody>
+  </table>
+  
+  
+  

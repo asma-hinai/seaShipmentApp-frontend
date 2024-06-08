@@ -1,65 +1,48 @@
+
+
+
+
+
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
-        <!-- <h6 _ngcontent-qyb-c125="" class="card-title">إدارة مستخديم النظام</h6> -->
+        <h6 class="card-title text-base font-semibold text-gray-900 text-right">إدارة أدوار النظام</h6>
       
         
     </div>
     <div class="d-flex align-items-center flex-wrap text-nowrap">
      
-      <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0 sett" (click)="openLgModal(lgModal)">
+      <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0 sett"  (click)="AddNewModal()">
         <i class="btn-icon-prepend" data-feather="plus" appFeatherIcon></i>
-     
-        <h6 _ngcontent-qyb-c125="" class="card-title">   إضافة مهمة</h6>
+        <h6 class="card-title text-white"  >   إضافة مهمة </h6>
+   
       </button>
     </div>
   </div>
+
+
+  
+  <div *ngFor="let permission of permissions.User; let i = index" class="permission-row">
+    <label [for]="'checkbox' + i">{{ permission.permission }}</label>
+    <input 
+      type="checkbox" 
+      [id]="'checkbox' + i" 
+      [checked]="permission.selected" 
+      (change)="onCheckboxChange($event, permission.code)"
+    >
+  </div>
+  
+
+
+
+
+  
 
   <div class="mt-8 flow-root">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <div class="overflow-hidden sm:rounded-lg border">
-          <table class="min-w-full divide-y divide-gray-300">
-            <thead class="bg-gray-50 ">
-              <tr>
-                <th scope="col" class="py-2.2 pl-2 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 text-right"> المهمة</th>
-                <th scope="col" class="px-3 py-2 text-left text-sm font-semibold text-gray-900  text-right"> الوصف</th>
-                <th scope="col" class="px-3 py-2 text-left text-sm font-semibold text-gray-900  text-right">الصلاحيات</th>
-                <th scope="col" class="px-3 py-2 text-left text-sm font-semibold text-gray-900  text-right">الإجراء</th>
-             
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 bg-white">
-              <tr>
-                <td class="whitespace-nowrap py-2.5 pl-2 pr-3 text-sm font-medium text-gray-900 sm:pl-6"> مستخدم</td>
-                <td class="whitespace-nowrap px-3  text-sm text-gray-500">   هنا يكتب وصف المستخدم</td>
-                <td class="whitespace-nowrap px-3 text-sm text-gray-500">  إضافة 
-                  ، 
-                  حذف</td>
-                <td class="whitespace-nowrap px-3 text-sm text-gray-500">
-                  <div class="flex gap-1">
-                    <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
-                    <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger " ></i> 
-                  </div>
-                </td>
-              
-              </tr>
-              <tr>
-                <td class="whitespace-nowrap py-2.5 pl-2 pr-3 text-sm font-medium text-gray-900 sm:pl-6"> مدير عام</td>
-                <td class="whitespace-nowrap px-3  text-sm text-gray-500">   هنا يكتب وصف مدير</td>
-                <td class="whitespace-nowrap px-3 text-sm text-gray-500">  إضافة 
-                  ، 
-                  حذف</td>
-                <td class="whitespace-nowrap px-3 text-sm text-gray-500">
-                  <div class="flex gap-1">
-                    <i data-feather="edit-2" appFeatherIcon class="icon-sm me-2 text-primary "></i>
-                    <i data-feather="trash" appFeatherIcon class="icon-sm me-2 text-danger " ></i> 
-                  </div>
-                </td>
-              
-              </tr>
-           
-            </tbody>
-          </table>
+          <app-table [columns]="tableColumns" [data]="RolesData.itemsList" [pageSize]="pageSize" [currentPage]="currentPage">
+          </app-table>
         </div>
       </div>
     </div>
@@ -67,139 +50,82 @@
 
 
 
-  <ng-template #lgModal let-modal>
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">إضافة مهمة جديدة</h5>
-      <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+
+
+  <!-- Modal -->
+<ng-template #lgModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">إضافة مهمة جديدة </h5>
+    <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+  
+    <form class="forms-sample" [formGroup]="roleForm">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="هذا الحقل إجباري">
+          <label  class="form-label">المهمة</label>
+          <input class="form-control" type="text" placeholder="الحد الأعلى ثلاثة أحرف"  formControlName="roleName" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="هذا الحقل إجباري"> 
+        <label class="form-label">الوصف</label>
+        <textarea class="form-control"  rows="3" formControlName="roleDes" ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+      <div class="mb-1">
+     
+        <div class="mt-8 flow-root">
+          <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <div class="overflow-hidden  ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-300">
+<thead>
+<tr>
+  <th scope="col" class="py-2.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 text-right"><label >
+     الصفحة
+    </label>
+  </th>
+  <th scope="col" class="py-2.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6  text-right"> 
+    الصلاحيات
+  </th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 bg-white">
+<tr *ngFor="let allPermissions of permissions ;let i=index;">
+  <td class="whitespace-nowrap py-1 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"> {{allPermissions[0]}}</td>
+  
+  <td class="whitespace-nowrap py-1 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+    <div class="row">
+      <ng-container *ngFor="let Permissionsi of allPermissions[1] ;let i=index;">
+        <div class="col-md">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="Permissionsi.selected"
+            [value]="Permissionsi.code" (change)="getPermissionsiValues(Permissionsi)"
+            [ngModelOptions]="{standalone: true}">
+          <span style="width: 15%;" class="form-check-label">
+            {{Permissionsi.permission}}</span>
+        </div>
+      </ng-container>
     </div>
-    <div class="modal-body">
-      <form class="forms-sample" [formGroup]="roleForm">
-        <div class="mb-3">
-          <!-- <nz-form-control nzErrorTip="هذا الحقل إجباري"> -->
-            <label for="exampleInputUsername1" class="form-label">المهمة</label>
-            <input class="form-control" type="text" placeholder="الحد الأعلى ثلاثة أحرف"  name="minlength" minlength="3"  formControlName="CashiersName" />
-          <!-- </nz-form-control> -->
-          </div>
+  </td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+      </div>
 
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">الوصف</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-          </div>
-
-          <div class="mb-1">
-            <label for="exampleInputUsername1" class="form-label">الصلاحيات</label>
-            <div class="mb-3">
-                <div class="form-check form-check-inline">
-                  
-                    <label class="form-check-label" for="checkInline">
-                     صفحة الطلبات :
-                    </label>
   
-  
-                  </div>
 
-                <div class="form-check form-check-inline">
-                  <input type="checkbox" class="form-check-input" id="checkInline">
-                  <label class="form-check-label" for="checkInline">
-                   إضافة
-                  </label>
+    </form>
 
-
-                </div>
-           
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="checkInline">
-                    <label class="form-check-label" for="checkInline">
-                    حذف
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="checkInline">
-                    <label class="form-check-label" for="checkInline">
-                  تعديل
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="checkInline">
-                    <label class="form-check-label" for="checkInline">
-                  عرض
-                    </label>
-                  </div>
-              </div>
-              <div class="mb-3">
-                <div class="form-check form-check-inline">
-                  
-                    <label class="form-check-label" for="checkInline">
-                     صفحة المهام :
-                    </label>
-  
-  
-                  </div>
-
-                <div class="form-check form-check-inline">
-                  <input type="checkbox" class="form-check-input" id="checkInline">
-                  <label class="form-check-label" for="checkInline">
-                   إضافة
-                  </label>
-
-
-                </div>
-           
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="checkInline">
-                    <label class="form-check-label" for="checkInline">
-                    حذف
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="checkInline">
-                    <label class="form-check-label" for="checkInline">
-                  تعديل
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="checkInline">
-                    <label class="form-check-label" for="checkInline">
-                  عرض
-                    </label>
-                  </div>
-              </div>
-              <div class="mb-3">
-                <div class="form-check form-check-inline">
-                  
-                    <label class="form-check-label" for="checkInline">
-                     صفحة التقارير :
-                    </label>
-  
-  
-                  </div>
-
-                <div class="form-check form-check-inline">
-                  <input type="checkbox" class="form-check-input" id="checkInline">
-                  <label class="form-check-label" for="checkInline">
-                   تحميل
-                  </label>
-
-
-                </div>
-           
-                
-             
-                  <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="checkInline">
-                    <label class="form-check-label" for="checkInline">
-                  عرض
-                    </label>
-                  </div>
-              </div>
-          </div>
-
-      
-
-        </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="modal.close('by: close button')">إغلاق</button>
-      <button type="button" class="btn btn-primary" (click)="modal.close('by: save button')">إضافة</button>
-    </div>
-  </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="handleRoleCancel()">إغلاق</button>
+    <button type="button" class="btn btn-primary" (click)="addRole()" *ngIf="isNew">إضافة</button>
+    <button type="button" class="btn btn-primary" (click)="addRole()" *ngIf="!isNew">تعديل</button>
+  </div>
+</ng-template>

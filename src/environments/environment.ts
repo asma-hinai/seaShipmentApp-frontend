@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseURL: "http://localhost:5001/api/",
+  baseURL: "https://localhost:7079/api/",
+  key: "shippement_sea_admin8467#%&&23%",
 };
 
 /*

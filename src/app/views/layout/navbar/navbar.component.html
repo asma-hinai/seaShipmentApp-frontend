@@ -102,8 +102,8 @@
                     <span>ملف التعريف</span>
                   </a>
                 </li>
-                <li class="dropdown-item py-2">
-                  <a routerLink="/setting"  class="d-flex text-body ms-0">
+                <li class="dropdown-item py-2"  routerLink="/setting">
+                  <a  class="d-flex text-body ms-0">
                     <i class="feather icon-edit me-2 icon-md"></i>
                     <span>الإعدادات</span>
                   </a>
@@ -134,7 +134,7 @@
       <!--- Menu -->
 			<ul class="nav page-navigation">
         <ng-container *ngFor="let item of menuItems">
-
+          <ng-container *ngIf="item.view">
           <li class="nav-item" [routerLinkActive]="['active']" *ngIf="!item.isMegaMenu">
             <a class="nav-link" [routerLink]="item.link" *ngIf="!hasItems(item)">
               <i class="link-icon" [attr.data-feather]="item.icon" appFeatherIcon *ngIf="item.icon"></i>
@@ -185,6 +185,7 @@
               </div>
             </div>
           </li>
+        </ng-container>
         </ng-container>
 
 			</ul>

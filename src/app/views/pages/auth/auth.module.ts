@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SetPasswordComponent } from './set-password/set-password.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 const routes: Routes = [
   {
     path: '',
@@ -23,13 +25,21 @@ const routes: Routes = [
       {
         path: 'register',
         component: RegisterComponent
+      },
+      {
+        path: 'set-password',
+        component: SetPasswordComponent
+      },
+      {
+        path: 'forget-password',
+        component: ForgetPasswordComponent
       }
     ]
   },
 ]
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, AuthComponent],
+  declarations: [LoginComponent, RegisterComponent, AuthComponent, SetPasswordComponent, ForgetPasswordComponent],
   imports: [
     CommonModule,
     HttpClientModule,

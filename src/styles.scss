@@ -22,10 +22,15 @@
 @import "@swimlane/ngx-datatable/themes/bootstrap.css";
 @import "@swimlane/ngx-datatable/assets/icons.css";
 
-
+@import "~ng-zorro-antd/style/index.min.css"; /* Import base styles */
+@import "~ng-zorro-antd/button/style/index.min.css";  /* Import one component's styles */
 //  styles for LTR
 // @import "./assets/scss/style";
 
 
 //  styles For RTL
 @import "./assets/scss/style.rtl.css";
+
+.ant-form-item-explain{
+    color:#dd2626 !important;
+}

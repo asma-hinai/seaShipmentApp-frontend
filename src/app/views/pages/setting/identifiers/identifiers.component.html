@@ -1,0 +1,61 @@
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div>
+            <h6 class="card-title text-base font-semibold text-gray-900 text-right">إدارة المعرفات</h6>
+          
+            
+        </div>
+
+
+<div class="mt-8 flow-root">
+<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+<div class="overflow-hidden sm:rounded-lg border">
+<app-table [columns]="tableColumns" [data]="IdentifiersData" [pageSize]="pageSize" [currentPage]="currentPage">
+</app-table>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+    </div>
+</div>
+
+
+
+<ng-template #lgModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">إضافة قيمة جديدة للمعرف {{identifierName}}</h5>
+      <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form class="forms-sample" [formGroup]="form">
+      
+        <label class="form-label">قيمة المعرف</label>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="هذا الحقل إجباري">
+            <input class="form-control" type="text" placeholder="الحد الأعلى ثلاثة أحرف"  formControlName="name" />
+          </nz-form-control>
+        </nz-form-item>
+  
+        
+     
+  
+    
+    </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close()">إغلاق</button>
+      <button type="button" class="btn btn-primary" (click)="AddIdentifierValues()" >
+        <span >إضافة</span>
+  
+        
+        </button>
+     
+    </div>
+  </ng-template>
+  

@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder,
 } from '@angular/forms';
+import Swal from "sweetalert2";
+import { PermissionsList } from "src/app/shared/interfaces/permission.config";
+import { PermissionService } from "src/app/services/app/permission.service";
 
 @Component({
   selector: 'app-login',
@@ -22,7 +26,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public permissionService: PermissionService,
+    private message: NzMessageService,
   ) {}
 
     ngOnInit(): void {
@@ -38,9 +44,19 @@ export class LoginComponent implements OnInit {
       ],
       password: [null, [Validators.required]],
     });
+
+
+    let permissionLocalStorge = localStorage.getItem('permission');
+    if (permissionLocalStorge) {
+      this.router.navigateByUrl("dashboard");
+    } 
+
   }
   
-  onLogin(): void {
+
+
+
+  submitLoginForm(): void {
     for (const i in this.LgginForm.controls) {
       if (this.LgginForm.controls.hasOwnProperty(i)) {
         this.LgginForm.controls[i].markAsDirty();
@@ -50,26 +66,53 @@ export class LoginComponent implements OnInit {
 
  
     let params = {
-      userName: this.LgginForm.value.email,
+      email: this.LgginForm.value.email,
       password: this.LgginForm.value.password,
     };
 
     if (!this.LgginForm.invalid) {
-      this.isLoading = true;
-      this.authService.login(params).subscribe(
-        async  (res: any) => {
-          this.isLoading = false;
- 
-          this.router.navigateByUrl("/dashboard");
-        },
-        (err: { error: { code: number; }; }) => {
-    
-  
-        }
-      );
+    this.isLoading = true;
+
+    this.authService.login(params).subscribe(
+      async  (res: any) => {
+        this.isLoading = false;
+        this.PermissionsList(res.data.permissions);  
+        this.router.navigateByUrl("/dashboard");
+
+      },
+      (err) => {
+
+
+        Swal.fire({
+          timer: 3000, 
+          title: "Error!",
+          text: "تحقق من البريد الاكتروني وكلمة المرور المدخلة",
+          icon: "error",
+        });
+      
+
+      }
+    );
     }
   }
 
+ async checkPermission() {
+    if (
+      await this.permissionService.checkPermission(
+        PermissionsList.Business_view
+      )
+    ) {
+    }
+  }
+
+
+  async PermissionsList(data:any) {
+    let crpto = await this.permissionService.encryptData(
+      JSON.stringify(data)
+    );
+ 
+    localStorage.setItem("permission", crpto.toString());
+  }
 
 
 

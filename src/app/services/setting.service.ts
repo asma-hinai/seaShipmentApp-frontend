@@ -17,7 +17,7 @@ export class SettingService {
 
   getUsers(params:any){
     return this.http
-    .get(`${environment.baseURL}AccessManagement/user` , {params:params})
+    .get(`${environment.baseURL}Users` , {params:params})
     .pipe(
       map((data) => data),
       catchError((error) => {
@@ -29,7 +29,7 @@ export class SettingService {
 
   addUser(params:any) {
     return this.http
-      .post(`${environment.baseURL}AccessManagement/user` , params)
+      .post(`${environment.baseURL}Users` , params)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -40,7 +40,7 @@ export class SettingService {
 
   editUser(params:any , id:any) {
     return this.http
-      .put(`${environment.baseURL}AccessManagement/user/id:${id}` , params)
+      .patch(`${environment.baseURL}Users/${id}` , params)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -51,9 +51,9 @@ export class SettingService {
 
 
 
-  deleteUser(params:any , id:any) {
+  deleteUser( id:any) {
     return this.http
-      .delete(`${environment.baseURL}AccessManagement/user/id:${id}` , params)
+      .delete(`${environment.baseURL}Users/${id}`)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -66,7 +66,7 @@ export class SettingService {
 
   getRole(params:any){
     return this.http
-    .get(`${environment.baseURL}AccessManagement/role` , {params:params})
+    .get(`${environment.baseURL}Roles` , {params:params})
     .pipe(
       map((data) => data),
       catchError((error) => {
@@ -77,20 +77,22 @@ export class SettingService {
  
 
 
-  addRole(params:any){
+
+  addRole(params:any) {
     return this.http
-    .get(`${environment.baseURL}AccessManagement/role` , {params:params})
-    .pipe(
-      map((data) => data),
-      catchError((error) => {
-        throw error;
-      })
-    );
+      .post(`${environment.baseURL}Roles` , params)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
   }
+
 
   editRole(params:any , id:any) {
     return this.http
-      .put(`${environment.baseURL}AccessManagement/role/id:${id}` , params)
+      .patch(`${environment.baseURL}Roles/${id}` , params)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -101,9 +103,9 @@ export class SettingService {
 
 
 
-  deleteRole(params:any , id:any) {
+  deleteRole(id:any) {
     return this.http
-      .delete(`${environment.baseURL}AccessManagement/role/id:${id}` , params)
+      .delete(`${environment.baseURL}Roles/${id}`)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -116,7 +118,7 @@ export class SettingService {
 
   getPermissions(params:any) {
     return this.http
-      .get(`${environment.baseURL}AccessManagement/permissions` , params)
+      .get(`${environment.baseURL}Roles/permissions` , params)
       .pipe(
         map((data) => data),
         catchError((error) => {
@@ -124,6 +126,52 @@ export class SettingService {
         })
       );
   }
+
+
+  getRolesName() {
+    return this.http
+      .get(`${environment.baseURL}Roles/name`)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+
+  getIdentifiers() {
+    return this.http
+      .get(`${environment.baseURL}Identifiers`)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+
+  addIdentifiers(params:any) {
+    return this.http
+      .post(`${environment.baseURL}Identifiers` , params)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+
+  deleteIdentifiers(id:any) {
+    return this.http
+      .delete(`${environment.baseURL}Identifiers/${id}`)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
+
 
 
 }

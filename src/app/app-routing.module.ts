@@ -1,20 +1,25 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BaseComponent } from './views/layout/base/base.component';
-import { AuthGuard } from './core/guard/auth.guard';
-import { SettingComponent } from './views/pages/setting/setting.component';
-
-
+import { PermissionGuard } from './shared/guard/permission.guard';
+import { PermissionsList } from './shared/interfaces/permission.config';
+import { ShipmentsComponent } from './views/pages/shipments/shipments.component';
+import { ReportsComponent } from './views/pages/reports/reports.component';
 const routes: Routes = [
   { path:'auth', loadChildren: () => import('./views/pages/auth/auth.module').then(m => m.AuthModule) },
   {
     path: '',
     component: BaseComponent,
-    canActivate: [AuthGuard],
+  
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule),
+        data: {
+          headerDisplay: "none",
+          permission: PermissionsList.View
+        },
+        canActivate: [PermissionGuard],
       },
       {
         path: 'orders',
@@ -24,8 +29,16 @@ const routes: Routes = [
         path: 'setting',
         loadChildren: () => import('./views/pages/setting/setting.module').then(m => m.SettingModule)
       },
+      {
+        path: 'shipments',
+        component: ShipmentsComponent,
+      },
+      {
+        path: 'reports',
+        component: ReportsComponent,
+      },
     
-      { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '**', redirectTo: 'auth', pathMatch: 'full' }
     ]
   },
  
