@@ -1,0 +1,571 @@
+<aw-wizard #wizardForm>
+    <aw-wizard-step stepTitle="بيانات الطلب">
+
+        <form [formGroup]="orderInfoForm">
+
+            <div class="grid grid-cols-2 gap-x-2 gap-y-2 sm:grid-cols-2 mt-2">
+                <div>
+                    <label class="form-label">جهة الطلب </label>
+                    <select class="form-select  mt-0" formControlName="orderDstinations"
+                        [ngClass]="{'is-invalid': isOrderInfoFormSubmitted && OrderInfoFormfunc.orderDstinations.errors}">
+
+                        <option *ngFor="let item of destinationsData.identifierValues">
+                            {{ item.value }}
+                        </option>
+
+                    </select>
+                    <div *ngIf="isOrderInfoFormSubmitted && OrderInfoFormfunc.orderDstinations.errors?.required"
+                        class="invalid-feedback">
+                        Required
+                    </div>
+                </div>
+                <div>
+                    <div class="grid grid-cols-1 gap-x-2 gap-y-2 sm:grid-cols-2 ">
+                        <div>
+                            <label class="form-label"> التاريخ المتوقع للوصول من </label>
+
+                            <div class="w-full">
+                                <div class="input-group">
+                                    <input class="form-control" formControlName="ExpectedDateFrom"
+                                        (click)="ExpectedDateFrom.toggle()"
+                                        [ngClass]="{'is-invalid': isOrderInfoFormSubmitted && OrderInfoFormfunc.ExpectedDateFrom.errors}"
+                                        ngbDatepicker #ExpectedDateFrom="ngbDatepicker">
+                                    <button class="input-group-text" type="button" (click)="ExpectedDateFrom.toggle()">
+                                        <i class="feather icon-calendar icon-md text-muted"></i>
+                                    </button>
+                                    <div *ngIf="isOrderInfoFormSubmitted && OrderInfoFormfunc.ExpectedDateFrom.errors?.required"
+                                        class="invalid-feedback">
+                                        Required
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label"> إلى </label>
+
+                            <div class="w-full">
+                                <div class="input-group">
+                                    <input class="form-control" formControlName="ExpectedDateTo"
+                                        (click)="ExpectedDateTo.toggle()"
+                                        [ngClass]="{'is-invalid': isOrderInfoFormSubmitted && OrderInfoFormfunc.ExpectedDateTo.errors}"
+                                        ngbDatepicker #ExpectedDateTo="ngbDatepicker">
+                                    <button class="input-group-text" type="button" (click)="ExpectedDateTo.toggle()">
+                                        <i class="feather icon-calendar icon-md text-muted"></i>
+                                    </button>
+                                    <div *ngIf="isOrderInfoFormSubmitted && OrderInfoFormfunc.ExpectedDateTo.errors?.required"
+                                        class="invalid-feedback">
+                                        Required
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-2 gap-y-2 sm:grid-cols-2 mt-2">
+                <div>
+                    <label class="form-label">الأولوية</label>
+                    <div class=" mt-0">
+                        <input type="text" class="form-control" formControlName="priority"
+                            [ngClass]="{'is-invalid': isOrderInfoFormSubmitted && OrderInfoFormfunc.priority.errors}">
+                        <div *ngIf="isOrderInfoFormSubmitted && OrderInfoFormfunc.priority.errors?.required"
+                            class="invalid-feedback">
+                            Required
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label">الغرض من النقل </label>
+                    <div class=" mt-0">
+                        <input type="text" class="form-control" formControlName="PurposeOfTransportation"
+                            [ngClass]="{'is-invalid': isOrderInfoFormSubmitted && OrderInfoFormfunc.PurposeOfTransportation.errors}">
+                        <div *ngIf="isOrderInfoFormSubmitted && OrderInfoFormfunc.PurposeOfTransportation.errors?.required"
+                            class="invalid-feedback">
+                            Required
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-2 gap-y-2 sm:grid-cols-2 mt-2">
+
+                <div>
+                    <label class="form-label">الوجهة من </label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="هذا الحقل إجباري">
+
+                            <select id="select" formControlName="DestinationFrom" class="form-select  mt-0"
+                                [ngClass]="{'is-invalid': isOrderInfoFormSubmitted && OrderInfoFormfunc.DestinationFrom.errors}">
+                                <option [value]="1">
+                                    مسندم
+                                </option>
+                                <option [value]="2">
+                                    الدقم
+                                </option>
+                                <option [value]="3">
+                                    الفحل
+                                </option>
+                            </select>
+
+                            <div *ngIf="isOrderInfoFormSubmitted && OrderInfoFormfunc.DestinationFrom.errors?.required"
+                                class="invalid-feedback">
+                                Required
+                            </div>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+
+                <div>
+                    <label class="form-label">الوجهة إلى </label>
+                    <nz-form-item>
+
+                        <select id="select" formControlName="DestinationTo" class="form-select  mt-0"
+                            [ngClass]="{'is-invalid': isOrderInfoFormSubmitted && OrderInfoFormfunc.DestinationTo.errors}">
+                            <option [value]="1">
+                                مسندم
+                            </option>
+                            <option [value]="2">
+                                الدقم
+                            </option>
+                            <option [value]="3">
+                                الفحل
+                            </option>
+                        </select>
+
+                        <div *ngIf="isOrderInfoFormSubmitted && OrderInfoFormfunc.DestinationTo.errors?.required"
+                            class="invalid-feedback">
+                            Required
+                        </div>
+                    </nz-form-item>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 gap-x-2 gap-y-2 sm:grid-cols-1 mt-2">
+
+                <div>
+                    <label class="form-label"> إرفاق ملفات </label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="هذا الحقل إجباري">
+                            <input class="form-control" type="file" (change)="onFileSelected($event)" />
+
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-x-2 gap-y-2 sm:grid-cols-1 mt-2">
+
+                <div>
+                    <label class="form-label"> ملاحظات </label>
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="هذا الحقل إجباري">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-2">
+                <button class="btn btn-primary" type="button" (click)="validateOrderInfoForm()">التالي</button>
+            </div>
+        </form>
+    </aw-wizard-step>
+
+    <aw-wizard-step stepTitle="بيانات المرسل و المستلم">
+        <form [formGroup]="SendeRecipientForm">
+
+            <ngb-accordion [closeOthers]="false" activeIds="static-1">
+                <ngb-panel id="static-1" title="بيانات المرسل">
+                    <ng-template ngbPanelContent>
+                        <div class="grid grid-cols-2 gap-x-2 gap-y-2 sm:grid-cols-2 mt-2">
+
+                            <div>
+                                <label class="form-label"> القسم المرسل </label>
+                                <input type="text" class="form-control" formControlName="SenderDepartment"
+                                    [ngClass]="{'is-invalid': sendeRecipientFormSubmitted && sendeRecipientFormFunc.SenderDepartment.errors}">
+                            </div>
+
+                            <div>
+                                <label class="form-label"> رقم هاتف المرسل</label>
+                                <input type="number" class="form-control" formControlName="SenderMobileNumber"
+                                    [ngClass]="{'is-invalid': sendeRecipientFormSubmitted && sendeRecipientFormFunc.SenderMobileNumber.errors}">
+
+                            </div>
+                            <div>
+                                <label class="form-label"> رقم نقال المرسل</label>
+                                <input type="number" class="form-control" formControlName="SenderMobileNumber"
+                                    [ngClass]="{'is-invalid': sendeRecipientFormSubmitted && sendeRecipientFormFunc.SenderMobileNumber.errors}">
+
+                            </div>
+                            <div>
+                                <label class="form-label"> الملاحظات</label>
+                                <input type="number" class="form-control" formControlName="SenderNote"
+                                    [ngClass]="{'is-invalid': sendeRecipientFormSubmitted && sendeRecipientFormFunc.SenderNote.errors}">
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel id="static-1" title="بيانات المستلم">
+                    <ng-template ngbPanelContent>
+                        <div class="grid grid-cols-2 gap-x-2 gap-y-2 sm:grid-cols-2 mt-2">
+
+                            <div>
+                                <label class="form-label"> القسم المستلم </label>
+                                <input type="text" class="form-control" formControlName="RecipientDepartment"
+                                    [ngClass]="{'is-invalid': sendeRecipientFormSubmitted && sendeRecipientFormFunc.RecipientDepartment.errors}">
+                            </div>
+
+                            <div>
+                                <label class="form-label"> رقم هاتف المستلم</label>
+                                <input type="number" class="form-control" formControlName="RecipientMobileNumber"
+                                    [ngClass]="{'is-invalid': sendeRecipientFormSubmitted && sendeRecipientFormFunc.RecipientMobileNumber.errors}">
+
+                            </div>
+                            <div>
+                                <label class="form-label"> رقم نقال المستلم</label>
+                                <input type="number" class="form-control" formControlName="RecipientPhoneNumber"
+                                    [ngClass]="{'is-invalid': sendeRecipientFormSubmitted && sendeRecipientFormFunc.RecipientPhoneNumber.errors}">
+
+                            </div>
+                            <div>
+                                <label class="form-label"> الملاحظات</label>
+                                <input type="number" class="form-control" formControlName="recipientNote"
+                                    [ngClass]="{'is-invalid': sendeRecipientFormSubmitted && sendeRecipientFormFunc.recipientNote.errors}">
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+
+            </ngb-accordion>
+
+            <div class="d-flex justify-content-end mt-2">
+                <button class="btn btn-secondary me-2" type="button" awPreviousStep>الرجوع</button>
+                <button class="btn btn-primary" type="button" awNextStep>التالي</button>
+            </div>
+        </form>
+    </aw-wizard-step>
+
+    <aw-wizard-step stepTitle="بيانات الشحنة">
+
+        <form [formGroup]="form">
+            <div>
+                <label for="loadType">نوع الطلب:</label>
+                <select id="loadType" formControlName="loadType" class="form-select  mt-0 mb-2">
+            
+                    <option value="shipment">شحنة</option>
+                    <option value="vehicle">مركبة</option>
+                </select>
+            </div>
+            <label for="loadType"   *ngIf="form.get('loadType')?.value=== 'vehicle'"> بيانات المركبة:</label>
+            <div class="grid grid-cols-4 gap-x-2 gap-y-2 sm:grid-cols-4 mt-2 justify-center p-2 my-3 border border-gray-200 rounded-xl"
+                *ngIf="form.get('loadType')?.value=== 'vehicle'">
+
+                <div>
+                    <label class="form-label">رمزها </label>
+                    <input type="text" class="form-control" formControlName="vehicleCode"
+                    [ngClass]="{'is-invalid': isShipmentFormSubmitted && Formfunc.vehicleCode.errors}"
+                    
+                    >
+                </div>
+                <div>
+                    <label class="form-label">رقمها </label>
+                    <input type="text" class="form-control" formControlName="vehicleNumber"
+                    [ngClass]="{'is-invalid': isShipmentFormSubmitted && Formfunc.vehicleNumber.errors}"
+                    >
+                </div>
+                <div>
+                    <label class="form-label">طولها </label>
+                    <input type="text" class="form-control" formControlName="vehicleLength"
+                    [ngClass]="{'is-invalid': isShipmentFormSubmitted && Formfunc.vehicleLength.errors}"
+                    >
+                </div>
+                <div>
+                    <label class="form-label">عرضها </label>
+                    <input type="text" class="form-control" formControlName="vehicleWidth"
+                    [ngClass]="{'is-invalid': isShipmentFormSubmitted && Formfunc.vehicleWidth.errors}"
+                    >
+                </div>
+                <div>
+                    <label class="form-label">إرتفاعها </label>
+                    <input type="text" class="form-control" formControlName="vehicleHeight"
+                    [ngClass]="{'is-invalid': isShipmentFormSubmitted && Formfunc.vehicleHeight.errors}"
+                    >
+                </div>
+                <div>
+                    <label class="form-label">وزنها </label>
+                    <input type="text" class="form-control" formControlName="vehicleWeight"
+                    [ngClass]="{'is-invalid': isShipmentFormSubmitted && Formfunc.vehicleWeight.errors}"
+                    >
+                </div>
+                <div>
+                    <label class="form-label">المسافة بين المحاور </label>
+                    <input type="text" class="form-control" formControlName="distanceBetweenTheAxes"
+                    [ngClass]="{'is-invalid': isShipmentFormSubmitted && Formfunc.distanceBetweenTheAxes.errors}"
+                    >
+                </div>
+
+            </div>
+
+            <div *ngIf="form.get('loadType')?.value=== 'vehicle'">
+                <label for="vehicleType">حالة المركبة:</label>
+                <select id="vehicleType" formControlName="vehicleType" class="form-select  mt-0 mb-2">
+                    <option value=""></option>
+                    <option value="working">تعمل</option>
+                    <option value="notWorking">لا تعمل</option>
+                </select>
+            </div>
+
+
+            <div *ngIf="form.get('vehicleType')?.value === 'notWorking'" class="row">
+               <div class="flex gap-2 col">
+                <label for="loading">التحميل:</label>
+                <div id="loading" formControlName="loading" class="form-radio-group mt-0 mb-2  flex gap-2">
+               
+                    <input type="radio" id="withLoading" value="withLoading" name="loading">
+                    <label for="withLoading">مع خدمة التحميل</label>
+            
+                    <input type="radio" id="withoutLoading" value="withoutLoading" name="loading">
+                    <label for="withoutLoading">بدون تحميل</label>
+               
+                </div>
+            </div>
+
+            <div class="flex gap-2 col">
+                <label for="unloading">التنزيل:</label>
+                <div id="unloading" formControlName="unloading" class="form-radio-group mt-0 mb-2  flex gap-2">
+               
+                    <input type="radio" id="withUnloading" value="withUnloading" name="unloading">
+                    <label for="withUnloading">مع خدمة التنزيل</label>
+            
+                    <input type="radio" id="withoutUnloading" value="withoutUnloading" name="unloading">
+                    <label for="withoutUnloading">بدون التنزيل</label>
+               
+                </div>
+            </div>
+
+<!-- 
+                <label for="unloading">التنزيل:</label>
+                <div id="unloading" formControlName="unloading" class="form-radio-group mt-0 mb-2 row">
+                  <div class="col">
+                    <input type="radio" id="withUnloading" value="withUnloading" name="unloading">
+                    <label for="withUnloading">مع خدمة التنزيل</label>
+                  </div>
+                  <div class="col">
+                    <input type="radio" id="withoutUnloading" value="withoutUnloading" name="unloading">
+                    <label for="withoutUnloading">بدون تنزيل</label>
+                  </div>
+                </div> -->
+              </div>
+              
+
+            <div *ngIf="form.get('loadType')?.value=== 'working' || form.get('vehicleType')?.value=== 'notWorking'">
+                <label for="load">الحمولة:</label>
+                <select id="load" formControlName="load" class="form-select  mt-0 mb-2">
+                    <option value=""></option>
+                    <option value="withLoad">مع الحمولة</option>
+                    <option value="withoutLoad">بدون الحمولة</option>
+                </select>
+            </div>
+
+        </form>
+
+        <div *ngIf="form.get('loadType')?.value == 'shipment' || form.get('load')?.value == 'withLoad'">
+            <form [formGroup]="shipmentForm">
+                <div>
+
+                    <label for="typeId" class="px-0 py-2 text-base font-semibold text-gray-900 text-right mb-0 pb-0">نوع
+                        الشحنة:</label>
+                    <select id="typeId" formControlName="typeId" (change)="onShipmentTypeChange()"
+                        class="form-select  mt-0 mb-2">
+                        <option *ngFor="let shipmentType of shipmentTypes" [value]="shipmentType.id">
+                            {{ shipmentType.type }}
+                        </option>
+                    </select>
+                    <div class="text-sm font-light text-red-700"
+                        *ngIf="shipmentForm.get('typeId')!.invalid && (shipmentForm.get('typeId')!.touched || submitted)">
+                        نوع الشحنة is required.
+                    </div>
+
+                    <div *ngIf="shipmentForm.get('typeId')!.value">
+                        <div [formGroup]="otherFields"
+                            class="grid grid-cols-2 gap-x-2 gap-y-2 sm:grid-cols-3 mt-2 justify-center">
+                            <div *ngFor="let field of selectedShipmentTypeFields">
+                                <label [for]="field.field">{{ field.label }}</label>
+                                <input [id]="field.field" [formControlName]="field.field"
+                                    placeholder="{{ field.label }}" class="form-control mt-0">
+                                <div class="text-sm font-light text-red-700"
+                                    *ngIf="otherFields.get(field.field)?.invalid && (otherFields.get(field.field)?.touched || submitted)">
+                                    {{ field.label }} is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+             
+
+
+                    <button type="button" class="btn btn-primary btn-icon-text my-2" (click)="addShipment()">
+                        <i class="feather icon-check-square btn-icon-prepend"></i>
+                        إضافة شحنة
+                    </button>
+
+                </div>
+
+             
+
+            </form>
+        </div>
+
+        <div class="d-flex justify-content-end mt-2">
+            <button class="btn btn-secondary me-2" type="button" awPreviousStep>الرجوع</button>
+            <button class="btn btn-primary" type="button"  (click)="validateShipmentForm()">التالي</button>
+        </div>
+
+    </aw-wizard-step>
+
+    <aw-wizard-step stepTitle="عرض البيانات">
+        <div class="pt-5">
+            <dl class="divide-y divide-gray-100">
+                <div class="px-2 py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900"> تاريخ الوصول المتوقع</dt>
+                    <dd class="mt-0 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"> 2024-06-09</dd>
+                </div>
+                <div class="px-2 py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900"> الأولوية</dt>
+                    <dd class="mt-0 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        {{orderInfoForm.value.priority}}
+                    </dd>
+                </div>
+                <div class="px-2 py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900"> الغرض من النقل</dt>
+                    <dd class="mt-0 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"> تجربة</dd>
+                </div>
+
+                <div class="px-2 py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900"> الوجهة من </dt>
+                    <dd class="mt-0 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"> مسندم</dd>
+                </div>
+
+                <div class="px-2 py-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt class="text-sm font-medium leading-6 text-gray-900"> الوجهة إلى </dt>
+                    <dd class="mt-0 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"> الدقم</dd>
+                </div>
+            </dl>
+
+            <hr>
+
+      
+           
+
+        </div>
+        <div class="d-flex justify-content-center mt-2">
+            <button class="btn btn-secondary me-2" type="button" awPreviousStep>الرجوع</button>
+            <button class="btn btn-success" type="button" (click)="finishFunction()">إضافة</button>
+        </div>
+    </aw-wizard-step>
+</aw-wizard>
+
+<!-- 
+
+<pre>{{ shipmentForm.value | json }}</pre>
+<pre>{{ shipmentForm.controls | json }}</pre> -->
+
+
+  <form [formGroup]="shipmentForm">
+    <div>
+        <label for="typeId">نوع الشحنة:</label>
+        <select id="typeId" formControlName="typeId" (change)="onShipmentTypeChange()">
+            <option *ngFor="let shipmentType of shipmentTypes" [value]="shipmentType.id">
+                {{ shipmentType.type }}
+            </option>
+        </select>
+    </div>
+
+    <div *ngIf="selectedShipmentType?.subtypes">
+        <label for="subtypeId">Subtype:</label>
+        <select id="subtypeId" formControlName="subtypeId" (change)="onSubtypeChange()">
+            <option *ngFor="let subtype of selectedShipmentType.subtypes" [value]="subtype.label">
+                {{ subtype.label }}
+            </option>
+        </select>
+    </div>
+
+    <div formGroupName="otherFields">
+        <div *ngIf="selectedShipmentTypeFields.length > 0">
+            <div *ngFor="let field of selectedShipmentTypeFields">
+                <ng-container [ngSwitch]="field.type">
+                    <div *ngSwitchDefault>
+                        <label>{{ field.label }}</label>
+                        <input [type]="field.type || 'text'" [formControlName]="field.field" [placeholder]="field.label">
+                    </div>
+                    <div *ngSwitchCase="'textarea'">
+                        <label>{{ field.label }}</label>
+                        <textarea [formControlName]="field.field" [placeholder]="field.label"></textarea>
+                    </div>
+                    <div *ngSwitchCase="'select'">
+                        <label>{{ field.label }}</label>
+                        <select [formControlName]="field.field">
+                            <option *ngFor="let option of field.options" [value]="option">{{ option }}</option>
+                        </select>
+                    </div>
+                    <div *ngSwitchCase="'checkbox'">
+                        <label>
+                            <input type="checkbox" [formControlName]="field.field"> {{ field.label }}
+                        </label>
+                    </div>
+                    <div *ngSwitchCase="'radio'">
+                        <label *ngFor="let option of field.options">
+                            <input type="radio" [formControlName]="field.field" [value]="option"> {{ option }}
+                        </label>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="addShipment()">Add Shipment</button>
+</form>
+
+<div *ngFor="let shipmentType of (shipments$ | async) | keyvalue">
+    <div class="mt-2 flow-root">
+      <div class="overflow-x-auto">
+        <div class="inline-block min-w-full py-1 align-middle px-2">
+          <div class="overflow-hidden ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300">
+              <thead class="bg-gray-50">
+                <tr>
+                  <!-- Get the keys from the first shipment's otherFields to display as headers -->
+                  <ng-container *ngIf="shipmentType.value.length > 0">
+                    <th scope="col" class="py-1.5 px-3 text-right text-sm font-semibold text-gray-900" *ngFor="let field of shipmentType.value[0].otherFields | keyvalue">
+                      {{ field.key }}
+                    </th>
+                  </ng-container>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                <!-- Iterate over each shipment of the current type -->
+                <tr *ngFor="let shipment of shipmentType.value">
+                  <!-- Display dynamic fields based on shipment's otherFields -->
+                  <td class="whitespace-nowrap py-1.5 px-3 text-sm font-light text-gray-900" *ngFor="let field of shipment.otherFields | keyvalue">
+                    {{ field.value }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

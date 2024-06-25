@@ -20,9 +20,9 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { OrdersComponent } from './orders.component';
 import { OrderTableComponent } from 'src/app/shared/templates/order-table/order-table.component';
-import { ArchwizardModule } from 'angular-archwizard'; // Correct import
 
-
+import { ArchwizardModule } from 'angular-archwizard';
+import { OrderWizardComponent } from './order-wizard/order-wizard.component';
 
 const routes: Routes = [
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [OrdersComponent  ,OrderTableComponent],
+  declarations: [OrdersComponent  ,OrderTableComponent, OrderWizardComponent],
 
   imports: [
     ArchwizardModule,

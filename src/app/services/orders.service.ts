@@ -15,6 +15,18 @@ export class OrdersService {
   constructor(public http: HttpClient) { }
 
 
+getOrders(params:any){
+    return this.http
+    .get(`${environment.baseURL}Orders` , {params:params})
+    .pipe(
+      map((data) => data),
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+
   getOrderswithPagination(params:any){
     return this.http
     .get(`${environment.baseURL}Orders/withPagination` , {params:params})

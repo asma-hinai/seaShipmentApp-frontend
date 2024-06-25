@@ -18,6 +18,7 @@ import en from '@angular/common/locales/en';
 import { ShipmentsComponent } from './views/pages/shipments/shipments.component';
 import { ReportsComponent } from './views/pages/reports/reports.component';
 
+
 registerLocaleData(en);
 
 
@@ -27,6 +28,7 @@ registerLocaleData(en);
     AppComponent,
     ShipmentsComponent,
     ReportsComponent,
+
    
   ],
   imports: [

@@ -1,0 +1,12 @@
+.form-radio-group.row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .form-radio-group.row .col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+  }
+  
